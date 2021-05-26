@@ -40,8 +40,36 @@ def Icon_slogan():
     except Exception as e:
         print('Something Went Wrong ',e)
 
+def Various_books_info():
+    '''Getting the varoius books info'''
+
+    for options in sort_options:
+        
+        url = f"{base_url}?orderby={sort_options[options]}"
+        # print(url)
+        r = session.get(url)
+        r.raise_for_status
+
+        posts = r.html.find('.post_item_wrap')
+
+        for post in posts:
+
+            try:
+                title = post.find('h2',first=True).text
+                print(title)
+
+                price = post.find('bdi',first=True).text
+                print(price)
+
+                img_link = post.find('img',first=True).attrs['src']
+                print(img_link)
+
+            except Exception as e:
+                print('Something Went Wrong ',e)
 
 if __name__ == "__main__":
 
-    Icon_slogan()
+    # Icon_slogan()
+    Various_books_info()
+
     print('Code Completed 🔥')
