@@ -52,26 +52,31 @@ def Various_books_info():
         r.raise_for_status
 
         posts = r.html.find('.post_item_wrap')
+        
+        csv_file = open(f'Results/{sort_options[options]}.csv','w',newline='')
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(['Title','Price','Image'])
 
         for post in posts:
             
-                try:
-                    title = post.find('h2',first=True).text
-                    print(title)
+            try:
+                title = post.find('h2',first=True).text
+                # print(title)
                     
 
-                    price = post.find('bdi',first=True).text
-                    print(price)
+                price = post.find('bdi',first=True).text
+                # print(price)
                     
 
-                    img_link = post.find('img',first=True).attrs['src']
-                    print(img_link)
+                img_link = post.find('img',first=True).attrs['src']
+                # print(img_link)
 
                     
-                except Exception as e:
-                    print('Something Went Wrong ',e)
+            except Exception as e:
+                print('Something Went Wrong ',e)
 
-            
+            csv_writer.writerow([title,price,img_link])
+        csv_file.close()    
 
 if __name__ == "__main__":
 
