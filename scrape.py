@@ -1,6 +1,6 @@
 # Import the required modules
 
-import os,csv
+import csv
 import requests
 from requests_html import HTMLSession
 from pprint import pprint
@@ -43,6 +43,7 @@ def Icon_slogan():
 def Various_books_info():
     '''Getting the varoius books info'''
 
+
     for options in sort_options:
         
         url = f"{base_url}?orderby={sort_options[options]}"
@@ -53,19 +54,24 @@ def Various_books_info():
         posts = r.html.find('.post_item_wrap')
 
         for post in posts:
+            
+                try:
+                    title = post.find('h2',first=True).text
+                    print(title)
+                    
 
-            try:
-                title = post.find('h2',first=True).text
-                print(title)
+                    price = post.find('bdi',first=True).text
+                    print(price)
+                    
 
-                price = post.find('bdi',first=True).text
-                print(price)
+                    img_link = post.find('img',first=True).attrs['src']
+                    print(img_link)
 
-                img_link = post.find('img',first=True).attrs['src']
-                print(img_link)
+                    
+                except Exception as e:
+                    print('Something Went Wrong ',e)
 
-            except Exception as e:
-                print('Something Went Wrong ',e)
+            
 
 if __name__ == "__main__":
 
